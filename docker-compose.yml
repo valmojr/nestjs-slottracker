@@ -1,0 +1,32 @@
+services:
+  node_app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: node_app_container
+    restart: always
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./:/usr/src/app
+    environment:
+      - PGHOST=db
+      - PGPORT=5432
+      - PGDATABASE=mydb
+      - PGUSER=myuser
+      - PGPASSWORD=mypassword
+    depends_on:
+      - db
+
+  db:
+    image: postgres
+    container_name: postgres_container
+    restart: always
+    ports:
+      - '5432:5432'
+    volumes:
+      - ./data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=mydb
+      - POSTGRES_USER=myuser
+      - POSTGRES_PASSWORD=mypassword
