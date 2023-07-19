@@ -30,7 +30,7 @@ export class EventController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() data: Event) {
+  update(@Param('id') @Body() data: Event) {
     return this.eventService.update(data);
   }
 
