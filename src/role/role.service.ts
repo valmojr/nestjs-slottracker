@@ -1,26 +1,44 @@
 import { Injectable } from '@nestjs/common';
-import { CreateRoleDto } from './dto/create-role.dto';
-import { UpdateRoleDto } from './dto/update-role.dto';
+import { Role } from '@prisma/client';
+import { randomUUID } from 'crypto';
+import { DatabaseService } from 'src/database/database.service';
 
 @Injectable()
 export class RoleService {
-  create(createRoleDto: CreateRoleDto) {
-    return 'This action adds a new role';
+  constructor(private databaseService: DatabaseService) {}
+
+  async create(data: Role): Promise<Role> {
+    data.id = randomUUID();
+
+    return this.databaseService.role.create({
+      data,
+    });
   }
 
-  findAll() {
-    return `This action returns all role`;
+  findAll(): Promise<Role[]> {
+    return this.databaseService.role.findMany();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} role`;
+  findById(id: string) {
+    return this.databaseService.role.findMany({
+      where: {
+        id,
+      },
+    });
   }
 
-  update(id: number, updateRoleDto: UpdateRoleDto) {
-    return `This action updates a #${id} role`;
+  update(data: Role) {
+    return this.databaseService.role.update({
+      where: {
+        id: data.id,
+      },
+      data,
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} role`;
+  remove({ id }: Role) {
+    return this.databaseService.role.delete({
+      where: { id },
+    });
   }
 }
