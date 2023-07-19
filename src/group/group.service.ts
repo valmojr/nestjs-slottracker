@@ -1,26 +1,44 @@
 import { Injectable } from '@nestjs/common';
-import { CreateGroupDto } from './dto/create-group.dto';
-import { UpdateGroupDto } from './dto/update-group.dto';
+import { DatabaseService } from 'src/database/database.service';
+import { Group } from '@prisma/client';
+import { randomUUID } from 'crypto';
 
 @Injectable()
 export class GroupService {
-  create(createGroupDto: CreateGroupDto) {
-    return 'This action adds a new group';
+  constructor(private databaseService: DatabaseService) {}
+
+  async create(data: Group): Promise<Group> {
+    data.id = randomUUID();
+
+    return this.databaseService.group.create({
+      data,
+    });
   }
 
-  findAll() {
-    return `This action returns all group`;
+  findAll(): Promise<Group[]> {
+    return this.databaseService.group.findMany();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} group`;
+  findById(id: string) {
+    return this.databaseService.group.findMany({
+      where: {
+        id,
+      },
+    });
   }
 
-  update(id: number, updateGroupDto: UpdateGroupDto) {
-    return `This action updates a #${id} group`;
+  update(data: Group) {
+    return this.databaseService.group.update({
+      where: {
+        id: data.id,
+      },
+      data,
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} group`;
+  remove({ id }: Group) {
+    return this.databaseService.group.delete({
+      where: { id },
+    });
   }
 }
