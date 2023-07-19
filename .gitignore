@@ -37,3 +37,5 @@ lerna-debug.log*
 data
 .env
 .history
+
+prisma/migrations
