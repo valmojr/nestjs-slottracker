@@ -29,13 +29,13 @@ export class GroupController {
     return this.groupService.findById(id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() data: Group) {
+  @Patch()
+  update(@Body() data: Group) {
     return this.groupService.update(data);
   }
 
-  @Delete(':id')
-  remove(@Param('id') data: Group) {
+  @Delete()
+  remove(@Body() data: Group) {
     return this.groupService.remove(data);
   }
 }
