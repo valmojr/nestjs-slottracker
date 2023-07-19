@@ -29,13 +29,13 @@ export class EventController {
     return this.eventService.findById(id);
   }
 
-  @Patch(':id')
-  update(@Param('id') @Body() data: Event) {
+  @Patch()
+  update(@Body() data: Event) {
     return this.eventService.update(data);
   }
 
-  @Delete(':id')
-  remove(@Param('id') data: Event) {
+  @Delete()
+  remove(@Body() data: Event) {
     return this.eventService.remove(data);
   }
 }
