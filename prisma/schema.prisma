@@ -19,6 +19,7 @@ model Event {
   ends_at     DateTime
   created_at  DateTime @default(now())
   updated_at  DateTime @updatedAt
+  owner       User[]
 }
 
 model Group {
@@ -42,4 +43,5 @@ model User {
   id            String @id @unique
   name          String
   assignedRoles Role[]
+  ownedEvents   Event[]
 }
