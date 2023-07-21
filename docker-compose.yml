@@ -6,6 +6,7 @@ services:
     container_name: node_app_container
     restart: always
     ports:
+      - '5555:5555'
       - '3000:3000'
     volumes:
       - ./:/usr/src/app
