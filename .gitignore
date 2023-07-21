@@ -38,4 +38,6 @@ data
 .env
 .history
 
+package-lock.json
+
 prisma/migrations
