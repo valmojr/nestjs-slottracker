@@ -11,11 +11,13 @@ services:
     volumes:
       - ./:/usr/src/app
     environment:
-      - PGHOST=db
-      - PGPORT=5432
-      - PGDATABASE=mydb
-      - PGUSER=myuser
-      - PGPASSWORD=mypassword
+      - PGHOST=${POSTGRES_HOST}
+      - PGPORT=${POSTGRES_PORT}
+      - PGDATABASE=${POSTGRES_DATABASE}
+      - PGUSER=${POSTGRES_USER}
+      - PGPASSWORD=${POSTGRES_PASSWORD}
+      - DATABASE_URL = postgresql://${POSTGRESQL_USER}:${POSTGRESQL_PASSWORD}@${POSTGRESQL_HOST}:${POSTGRESQL_PORT}/${POSTGRESQL_DATABASE}?schema=public
+
     depends_on:
       - db
 
@@ -28,6 +30,6 @@ services:
     volumes:
       - ./data:/var/lib/postgresql/data
     environment:
-      - POSTGRES_DB=mydb
-      - POSTGRES_USER=myuser
-      - POSTGRES_PASSWORD=mypassword
+      - POSTGRES_DB=${POSTGRES_DATABASE}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
