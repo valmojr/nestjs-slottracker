@@ -20,6 +20,10 @@ export class AuthController {
   async discordCallback(@Req() req: Request, @Res() res: Response) {
     // Get the authorization code from the query parameters.
     const code = req.query.code as string;
+    const session = req.query.session as any;
+
+    this.logger.log(code);
+    this.logger.log(session);
 
     // Check if the code exists before proceeding.
     if (!code) {
@@ -33,8 +37,7 @@ export class AuthController {
         client_secret: process.env.DISCORD_CLIENT_SECRET,
         grant_type: 'authorization_code',
         code,
-        redirect_uri:
-          'https://valmojr-congenial-halibut-5pp6jwr67jh7qr4-3000.preview.app.github.dev/discord/callback',
+        redirect_uri: process.env.DISCORD_REDIRECT_URL,
         scope: 'identify email guilds',
       };
 
