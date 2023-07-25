@@ -26,7 +26,7 @@ export class GroupController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.groupService.findById(id);
+    return this.groupService.find(id);
   }
 
   @Patch()

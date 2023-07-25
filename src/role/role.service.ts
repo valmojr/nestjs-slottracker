@@ -19,15 +19,23 @@ export class RoleService {
     return this.databaseService.role.findMany();
   }
 
-  findById(id: string) {
-    return this.databaseService.role.findMany({
-      where: {
-        id,
-      },
-    });
+  find(roleOrRoleId: Role | string): Promise<Role> {
+    if (typeof roleOrRoleId == 'string') {
+      return this.databaseService.role.findUnique({
+        where: {
+          id: roleOrRoleId,
+        },
+      });
+    } else {
+      return this.databaseService.role.findUnique({
+        where: {
+          id: roleOrRoleId.id,
+        },
+      });
+    }
   }
 
-  update(data: Role) {
+  update(data: Role): Promise<Role> {
     return this.databaseService.role.update({
       where: {
         id: data.id,
@@ -36,9 +44,19 @@ export class RoleService {
     });
   }
 
-  remove({ id }: Role) {
-    return this.databaseService.role.delete({
-      where: { id },
-    });
+  remove(roleOrRoleId: Role | string): Promise<Role> {
+    if (typeof roleOrRoleId == 'string') {
+      return this.databaseService.role.delete({
+        where: {
+          id: roleOrRoleId,
+        },
+      });
+    } else {
+      return this.databaseService.role.delete({
+        where: {
+          id: roleOrRoleId.id,
+        },
+      });
+    }
   }
 }

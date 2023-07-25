@@ -19,15 +19,23 @@ export class EventService {
     return this.databaseService.event.findMany();
   }
 
-  findById(id: string) {
-    return this.databaseService.event.findMany({
-      where: {
-        id,
-      },
-    });
+  find(eventOrEventId: Event | string): Promise<Event> {
+    if (typeof eventOrEventId == 'string') {
+      return this.databaseService.event.findUnique({
+        where: {
+          id: eventOrEventId,
+        },
+      });
+    } else {
+      return this.databaseService.event.findUnique({
+        where: {
+          id: eventOrEventId.id,
+        },
+      });
+    }
   }
 
-  update(data: Event) {
+  update(data: Event): Promise<Event> {
     return this.databaseService.event.update({
       where: {
         id: data.id,
@@ -36,9 +44,19 @@ export class EventService {
     });
   }
 
-  remove({ id }: Event) {
-    return this.databaseService.event.delete({
-      where: { id },
-    });
+  remove(eventOrEventId: Event | string): Promise<Event> {
+    if (typeof eventOrEventId == 'string') {
+      return this.databaseService.event.delete({
+        where: {
+          id: eventOrEventId,
+        },
+      });
+    } else {
+      return this.databaseService.event.delete({
+        where: {
+          id: eventOrEventId.id,
+        },
+      });
+    }
   }
 }

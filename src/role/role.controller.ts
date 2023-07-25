@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { RoleService } from './role.service';
 import { Role } from '@prisma/client';
 
@@ -18,7 +26,7 @@ export class RoleController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.roleService.findById(id);
+    return this.roleService.find(id);
   }
 
   @Patch()

@@ -19,15 +19,23 @@ export class GroupService {
     return this.databaseService.group.findMany();
   }
 
-  findById(id: string) {
-    return this.databaseService.group.findMany({
-      where: {
-        id,
-      },
-    });
+  find(groupOrGroupId: Group | string): Promise<Group> {
+    if (typeof groupOrGroupId == 'string') {
+      return this.databaseService.group.findUnique({
+        where: {
+          id: groupOrGroupId,
+        },
+      });
+    } else {
+      return this.databaseService.group.findUnique({
+        where: {
+          id: groupOrGroupId.id,
+        },
+      });
+    }
   }
 
-  update(data: Group) {
+  update(data: Group): Promise<Group> {
     return this.databaseService.group.update({
       where: {
         id: data.id,
@@ -36,9 +44,19 @@ export class GroupService {
     });
   }
 
-  remove({ id }: Group) {
-    return this.databaseService.group.delete({
-      where: { id },
-    });
+  remove(groupOrGroupId: Group | string): Promise<Group> {
+    if (typeof groupOrGroupId == 'string') {
+      return this.databaseService.group.delete({
+        where: {
+          id: groupOrGroupId,
+        },
+      });
+    } else {
+      return this.databaseService.group.delete({
+        where: {
+          id: groupOrGroupId.id,
+        },
+      });
+    }
   }
 }

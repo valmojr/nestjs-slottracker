@@ -19,15 +19,23 @@ export class UserService {
     return this.databaseService.user.findMany();
   }
 
-  findById(id: string) {
-    return this.databaseService.user.findMany({
-      where: {
-        id,
-      },
-    });
+  find(userOrUserId: User | string): Promise<User> {
+    if (typeof userOrUserId == 'string') {
+      return this.databaseService.user.findUnique({
+        where: {
+          id: userOrUserId,
+        },
+      });
+    } else {
+      return this.databaseService.user.findUnique({
+        where: {
+          id: userOrUserId.id,
+        },
+      });
+    }
   }
 
-  update(data: User) {
+  update(data: User): Promise<User> {
     return this.databaseService.user.update({
       where: {
         id: data.id,
@@ -36,9 +44,19 @@ export class UserService {
     });
   }
 
-  remove({ id }: User) {
-    return this.databaseService.user.delete({
-      where: { id },
-    });
+  remove(userOrUserId: User | string): Promise<User> {
+    if (typeof userOrUserId == 'string') {
+      return this.databaseService.user.delete({
+        where: {
+          id: userOrUserId,
+        },
+      });
+    } else {
+      return this.databaseService.user.delete({
+        where: {
+          id: userOrUserId.id,
+        },
+      });
+    }
   }
 }
