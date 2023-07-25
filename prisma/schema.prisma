@@ -40,8 +40,22 @@ model Role {
 }
 
 model User {
-  id            String @id @unique
+  id            String  @id @unique
   name          String
+  email         String
+  avatar        String
   assignedRoles Role[]
   ownedEvents   Event[]
+}
+
+model OAuth2Credential {
+  id           String @id @unique
+  accessToken  String
+  refreshToken String
+}
+
+model Session {
+  id        String   @id @unique
+  expiredAt DateTime
+  json      String
 }
