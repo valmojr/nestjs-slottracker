@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { User } from '@prisma/client';
-import { randomUUID } from 'crypto';
 import { DatabaseService } from 'src/database/database.service';
 
 @Injectable()
@@ -8,8 +7,6 @@ export class UserService {
   constructor(private databaseService: DatabaseService) {}
 
   async create(data: User): Promise<User> {
-    data.id = randomUUID();
-
     return this.databaseService.user.create({
       data,
     });
