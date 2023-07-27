@@ -5,22 +5,24 @@ import { UserService } from 'src/user/user.service';
 @Injectable()
 export class AuthService {
   constructor(private readonly userService: UserService) {}
+  private logger = new Logger(AuthService.name);
 
-  private logger = new Logger('AuthService');
-
-  async findOrRegisterUserFromDiscordId(discordUser: User): Promise<any> {
-    const user = await this.userService.find(discordUser.id);
-
-    if (!user) {
-      this.logger.warn(
-        `User with discordId ${discordUser.id} not found, registering a new one`,
-      );
-
-      this.userService.create(discordUser);
-
-      this.logger.log(`${discordUser.id} - ${discordUser.username} registered`);
+  async validateUser(details: User) {
+    const { id } = details;
+    const user = await this.findUser(id);
+    if (user) {
+      await this.userService.update(details);
+      this.logger.log(`Update user ${id} - ${details.username}`);
+      return user;
     }
+    return this.createUser(details);
+  }
 
-    return user;
+  createUser(details: User) {
+    return this.userService.create(details);
+  }
+
+  findUser(discordId: string): Promise<User | undefined> {
+    return this.userService.find(discordId);
   }
 }

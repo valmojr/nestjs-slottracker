@@ -1,41 +1,31 @@
+import { Profile, Strategy } from 'passport-discord';
 import { PassportStrategy } from '@nestjs/passport';
-import { Injectable } from '@nestjs/common';
-import { Strategy } from 'passport-oauth2';
-import { stringify } from 'querystring';
+import { Inject, Injectable } from '@nestjs/common';
 import { AuthService } from '../auth.service';
 
 @Injectable()
-export class DiscordStrategy extends PassportStrategy(Strategy, 'discord') {
-  constructor(private authService: AuthService) {
+export class DiscordStrategy extends PassportStrategy(Strategy) {
+  constructor(
+    @Inject('AUTH_SERVICE')
+    private readonly authService: AuthService,
+  ) {
     super({
-      authorizationURL: `https://discordapp.com/api/oauth2/authorize?${stringify(
-        {
-          client_id: process.env.DISCORD_CLIENT_ID,
-          redirect_uri: process.env.DISCORD_REDIRECT_URL,
-          response_type: 'code',
-          scope: 'identify',
-        },
-      )}`,
-      tokenURL: 'https://discordapp.com/api/oauth2/token',
-      scope: 'identify email guilds',
       clientID: process.env.DISCORD_CLIENT_ID,
       clientSecret: process.env.DISCORD_CLIENT_SECRET,
-      callbackURL: process.env.DISCORD_REDIRECT_URL,
+      callbackURL: process.env.DISCORD_CALLBACK_URL,
+      scope: ['identify', 'guilds'],
     });
   }
 
-  async validate(accessToken: string): Promise<any> {
-    const response = await fetch('https://discordapp.com/api/users/@me', {
-      headers: { Authorization: `Bearer ${accessToken}` },
-    });
-
-    const { id, username, email, avatar } = await response.json();
-
-    return this.authService.findOrRegisterUserFromDiscordId({
+  async validate(accessToken: string, refreshToken: string, profile: Profile) {
+    const { username, id, avatar } = profile;
+    const user = {
       id,
       username,
-      email,
       avatar,
-    });
+      accessToken,
+      refreshToken,
+    };
+    return this.authService.validateUser(user);
   }
 }
