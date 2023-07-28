@@ -1,11 +1,14 @@
-import { Controller, Get } from '@nestjs/common';
-
+import { Controller, Get, HttpStatus, Req } from '@nestjs/common';
+import { Request } from 'express';
 @Controller('dashboard')
 export class DashboardController {
   @Get()
-  async getDashboard() {
+  async getDashboard(@Req() req: Request) {
     return {
-      message: 'You are logged in!',
+      statusCode: HttpStatus.OK,
+      message: 'Success',
+      data: req.user,
+      cookies: req.cookies,
     };
   }
 }

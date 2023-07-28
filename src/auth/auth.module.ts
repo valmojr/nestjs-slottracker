@@ -5,8 +5,15 @@ import { UserService } from 'src/user/user.service';
 import { DatabaseService } from 'src/database/database.service';
 import { DiscordStrategy } from './util/discord.strategy';
 import { SessionSerializer } from './util/SessionSerializer.middleware';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
+  imports: [
+    JwtModule.register({
+      secret: process.env.JWT_SECRET,
+      signOptions: { expiresIn: '1h' },
+    }),
+  ],
   controllers: [AuthController],
   providers: [
     {

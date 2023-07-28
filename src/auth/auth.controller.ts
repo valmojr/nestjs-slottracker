@@ -1,9 +1,15 @@
-import { Controller, Get, Req, Res, UseGuards } from '@nestjs/common';
+import { Controller, Get, Inject, Req, Res, UseGuards } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { DiscordAuthGuard, AuthenticatedGuard } from './util/discord.guard';
+import { AuthService } from './auth.service';
 
 @Controller('auth')
 export class AuthController {
+  constructor(
+    @Inject('AUTH_SERVICE')
+    private readonly authService: AuthService,
+  ) {}
+
   @Get('login')
   @UseGuards(DiscordAuthGuard)
   login() {
@@ -13,13 +19,14 @@ export class AuthController {
   @Get('redirect')
   @UseGuards(DiscordAuthGuard)
   redirect(@Res() res: Response) {
-    res.redirect('http://localhost:3000/api/dashboard');
+    res.redirect('/api/dashboard');
   }
 
   @Get('status')
   @UseGuards(AuthenticatedGuard)
-  status(@Req() req: Request) {
-    return req.user;
+  async status(@Req() req: Request) {
+    const jwtToken = await this.authService.generateToken(req.user);
+    return { access_token: jwtToken };
   }
 
   @Get('logout')
