@@ -4,11 +4,10 @@ import { Controller, Get, HttpStatus, Req } from '@nestjs/common';
 export class DashboardController {
   @Get()
   async getDashboard(@Req() req: any) {
-    console.log(req.session.passport);
     return {
       statusCode: HttpStatus.OK,
       message: 'Success',
-      data: req.session?.passport?.user,
+      data: req.session.passport?.user,
     };
   }
 }
