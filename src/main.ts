@@ -11,7 +11,7 @@ async function bootstrap() {
   app.use(
     session({
       secret: process.env.SECRET_KEY, // Replace with your own secret key
-      resave: false,
+      resave: true,
       saveUninitialized: false,
       store: sessionStore,
     }),

@@ -19,13 +19,15 @@ export class AuthController {
   @Get('redirect')
   @UseGuards(DiscordAuthGuard)
   redirect(@Res() res: Response) {
-    res.redirect('/api/dashboard');
+    res.redirect('/api/auth/status');
   }
 
   @Get('status')
   @UseGuards(AuthenticatedGuard)
-  async status(@Req() req: Request) {
-    const jwtToken = await this.authService.generateToken(req.user);
+  async status(@Req() req: any) {
+    const jwtToken = await this.authService.generateToken(
+      req.session.passport?.user,
+    );
     return { access_token: jwtToken };
   }
 
