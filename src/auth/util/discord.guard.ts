@@ -17,7 +17,7 @@ export class DiscordAuthGuard extends AuthGuard('discord') {
 @Injectable()
 export class AuthenticatedGuard implements CanActivate {
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    const req = context.switchToHttp().getRequest();
-    return req.isAuthenticated();
+    const req = await context.switchToHttp().getRequest();
+    return await req.session.passport?.user;
   }
 }

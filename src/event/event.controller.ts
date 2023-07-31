@@ -6,9 +6,11 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
 import { EventService } from './event.service';
 import { Event } from '@prisma/client';
+import { AuthenticatedGuard } from 'src/auth/util/discord.guard';
 
 @Controller('event')
 export class EventController {
@@ -19,6 +21,7 @@ export class EventController {
     return this.eventService.create(data);
   }
 
+  @UseGuards(AuthenticatedGuard)
   @Get()
   findAll() {
     return this.eventService.findAll();
