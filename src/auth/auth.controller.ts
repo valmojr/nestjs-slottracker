@@ -20,7 +20,6 @@ export class AuthController {
   @UseGuards(DiscordAuthGuard)
   redirect(@Res() res: Response) {
     res.redirect('/api/auth/status');
-    res.redirect('/api/userme');
   }
 
   @Get('status')
