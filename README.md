@@ -28,7 +28,7 @@ This is [Nest.js](https://github.com/nestjs/nest) application for handling the b
       <img width="40" src="https://raw.githubusercontent.com/devicons/devicon/1119b9f84c0290e0f0b38982099a2bd027a48bf1/icons/postgresql/postgresql-original.svg" />
     </a>
     <a href="https://www.prisma.io/">
-      <img height="40" src="https://tsed.io/prisma-2.svg" style />
+      <img height="40" src="https://tsed.io/prisma-3.svg" style />
     </a>
     <a href="https://jestjs.io/">
       <img height="30" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jest/jest-plain.svg" />
@@ -44,9 +44,6 @@ This is [Nest.js](https://github.com/nestjs/nest) application for handling the b
     </a>
     <a href="https://github.com/">
       <img width="40" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg"/>
-    </a>
-    <a href="https://www.figma.com/">
-      <img height="40" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg" />
     </a>
 </p>
 
@@ -82,10 +79,9 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
-## Authors
+## Author
 
 - Valmo Trindade - [GitHub](https://github.com/valmojr)
-- Luiz Dembicki - [GitHub](https://github.com/luizdembicki)
 
 ## License
 
