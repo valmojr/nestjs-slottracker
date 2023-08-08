@@ -19,6 +19,7 @@ model Event {
   ends_at     DateTime
   created_at  DateTime @default(now())
   updated_at  DateTime @updatedAt
+  owner       User[]
 }
 
 model Group {
@@ -39,7 +40,17 @@ model Role {
 }
 
 model User {
-  id            String @id @unique
-  name          String
+  id            String  @id @unique
+  username      String
+  avatar        String
   assignedRoles Role[]
+  ownedEvents   Event[]
+  accessToken   String?
+  refreshToken  String?
+}
+
+model Session {
+  id        String   @id @unique
+  expiredAt DateTime
+  json      String
 }
