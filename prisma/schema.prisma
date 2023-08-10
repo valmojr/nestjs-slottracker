@@ -14,6 +14,7 @@ model Event {
   id          String   @id @unique
   title       String
   description String
+  thumbnail   String?
   groups      Group[]
   starts_at   DateTime
   ends_at     DateTime
