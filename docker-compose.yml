@@ -7,7 +7,7 @@ services:
     restart: always
     ports:
       - '5555:5555' # Prisma Studio
-      - '3000:8443' # Node.js API
+      - '8080:8080' # Node.js API
     volumes:
       - ./:/usr/src/app
     environment:
