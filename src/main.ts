@@ -10,9 +10,9 @@ async function bootstrap() {
   const sessionStore = new PrismaSessionStore();
   app.use(
     session({
-      secret: process.env.SECRET_KEY, // Replace with your own secret key
+      secret: process.env.SECRET_KEY,
       resave: true,
-      saveUninitialized: false,
+      saveUninitialized: true,
       store: sessionStore,
     }),
   );
@@ -30,6 +30,6 @@ async function bootstrap() {
     console.log(error.message);
   }
   app.setGlobalPrefix('api');
-  await app.listen(3000);
+  await app.listen(process.env.APP_PORT);
 }
 bootstrap();

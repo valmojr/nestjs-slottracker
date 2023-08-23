@@ -19,7 +19,7 @@ export class AuthController {
   @Get('redirect')
   @UseGuards(DiscordAuthGuard)
   redirect(@Res() res: Response) {
-    res.redirect('/api/auth/status');
+    res.redirect(process.env.FRONTEND_REDIRECT_URL);
   }
 
   @Get('status')
