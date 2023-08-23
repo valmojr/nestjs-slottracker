@@ -6,30 +6,31 @@ import { PrismaSessionStore } from './database/PrismaSessionStore';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  // Use custom session store with Prisma
-  const sessionStore = new PrismaSessionStore();
-  app.use(
-    session({
-      secret: process.env.SECRET_KEY,
-      resave: true,
-      saveUninitialized: true,
-      store: sessionStore,
-    }),
-  );
   try {
     const sessionStore = new PrismaSessionStore();
-    app.use(
-      session({
-        secret: process.env.SECRET_KEY,
-        resave: true,
-        saveUninitialized: false,
-        store: sessionStore,
-      }),
-    );
+
+    const sessionOptions = {
+      secret: process.env.SECRET_KEY,
+      resave: true,
+      saveUninitialized: false,
+      store: sessionStore,
+      cookie: {
+        httpOnly: false,
+        maxAge: 60 * 60 * 60,
+        path: '/',
+        sameSite: false,
+      },
+    };
+
+    app.use(session(sessionOptions));
   } catch (error) {
     console.log(error.message);
   }
   app.setGlobalPrefix('api');
+  app.enableCors({
+    origin: ['http://localhost:80', 'http://localhost:8080'],
+    credentials: true,
+  });
   await app.listen(process.env.APP_PORT);
 }
 bootstrap();
