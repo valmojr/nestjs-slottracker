@@ -1,14 +1,15 @@
-import { Injectable, Logger, UnauthorizedException } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
+import { Injectable, Logger } from '@nestjs/common';
 import { User } from '@prisma/client';
+import { DatabaseService } from 'src/database/database.service';
 import { UserService } from 'src/user/user.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly userService: UserService,
-    private readonly jwtService: JwtService,
+    private readonly databaseService: DatabaseService,
   ) {}
+
   private logger = new Logger(AuthService.name);
 
   async validateUser(details: User) {
@@ -30,18 +31,7 @@ export class AuthService {
     return this.userService.find(discordId);
   }
 
-  async generateToken(user: any): Promise<string> {
-    if (user.id) {
-      const payload = {
-        sub: user.id,
-        username: user.username,
-        avatar: user.avatar,
-        accessToken: user.accessToken,
-        refreshToken: user.refreshToken,
-      };
-
-      return this.jwtService.sign(payload);
-    }
-    throw new UnauthorizedException('User not found');
+  findSession(id: string) {
+    return this.databaseService.session.findUnique({ where: { id } });
   }
 }

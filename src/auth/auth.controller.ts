@@ -22,15 +22,6 @@ export class AuthController {
     res.redirect(process.env.FRONTEND_REDIRECT_URL);
   }
 
-  @Get('status')
-  @UseGuards(AuthenticatedGuard)
-  async status(@Req() req: any) {
-    const jwtToken = await this.authService.generateToken(
-      req.session.passport?.user,
-    );
-    return { access_token: jwtToken };
-  }
-
   @Get('logout')
   @UseGuards(AuthenticatedGuard)
   logout(@Req() req: Request) {

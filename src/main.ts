@@ -11,12 +11,12 @@ async function bootstrap() {
 
     const sessionOptions = {
       secret: process.env.SECRET_KEY,
-      resave: true,
-      saveUninitialized: false,
+      resave: false,
+      saveUninitialized: true,
       store: sessionStore,
       cookie: {
         httpOnly: false,
-        maxAge: 60 * 60 * 60,
+        maxAge: 1000 * 60 * 60 * 24,
         path: '/',
         sameSite: false,
       },
