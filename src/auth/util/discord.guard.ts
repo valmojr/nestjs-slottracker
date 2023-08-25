@@ -18,8 +18,6 @@ export class DiscordAuthGuard extends AuthGuard('discord') {
 export class AuthenticatedGuard implements CanActivate {
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const req = context.switchToHttp().getRequest();
-    const reqUser = req.session.passport?.user;
-
-    return reqUser;
+    return !!req.session.cookie;
   }
 }

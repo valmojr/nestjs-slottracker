@@ -28,7 +28,7 @@ async function bootstrap() {
   }
   app.setGlobalPrefix('api');
   app.enableCors({
-    origin: ['http://localhost:80', 'http://localhost:8080'],
+    origin: '*',
     credentials: true,
   });
   await app.listen(process.env.APP_PORT);
