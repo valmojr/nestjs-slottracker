@@ -11,8 +11,8 @@ async function bootstrap() {
 
     const sessionOptions = {
       secret: process.env.SECRET_KEY,
-      resave: false,
-      saveUninitialized: true,
+      resave: true,
+      saveUninitialized: false,
       store: sessionStore,
       cookie: {
         httpOnly: false,
