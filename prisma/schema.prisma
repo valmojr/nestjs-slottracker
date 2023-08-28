@@ -10,6 +10,14 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+//model Guild {
+//  id String @id @unique
+//  title String
+//  description String
+//  thumbnail String?
+//  members User[]
+//}
+
 model Event {
   id          String   @id @unique
   title       String
@@ -48,6 +56,7 @@ model User {
   ownedEvents   Event[]
   accessToken   String?
   refreshToken  String?
+  //guilds        Guild[]
 }
 
 model Session {
