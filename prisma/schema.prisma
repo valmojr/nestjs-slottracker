@@ -12,7 +12,7 @@ datasource db {
 
 model Guild {
   id          String  @id @unique
-  title       String
+  name        String
   description String
   thumbnail   String?
   members     User[]
