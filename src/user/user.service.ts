@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { User } from '@prisma/client';
+import { User, Guild } from '@prisma/client';
 import { DatabaseService } from 'src/database/database.service';
 
 @Injectable()
@@ -53,6 +53,18 @@ export class UserService {
         where: {
           id: userOrUserId.id,
         },
+      });
+    }
+  }
+
+  async findAllUsersFromGuild(GuildOrGuildId: Guild | string): Promise<User[]> {
+    if (typeof GuildOrGuildId !== 'string') {
+      return this.databaseService.user.findMany({
+        where: { guilds: { every: { id: GuildOrGuildId.id } } },
+      });
+    } else {
+      return this.databaseService.user.findMany({
+        where: { guilds: { every: { id: GuildOrGuildId } } },
       });
     }
   }
