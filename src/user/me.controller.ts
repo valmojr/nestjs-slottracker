@@ -32,7 +32,9 @@ export class UserMeController {
     });
 
     if (!session) {
-      this.logger.error('Requested a non-existent session id');
+      this.logger.error(
+        'Requested a non-existent session id on findMe endpoint',
+      );
 
       return {
         statusCode: HttpStatus.FORBIDDEN,
