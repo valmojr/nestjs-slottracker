@@ -41,4 +41,9 @@ export class UserController {
   remove(@Body() data: User) {
     return this.userService.remove(data);
   }
+
+  @Get(':id')
+  findManyByGuild(@Param('id') id: string) {
+    return this.userService.findAllUsersFromGuild(id);
+  }
 }
