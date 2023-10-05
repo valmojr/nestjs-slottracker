@@ -27,21 +27,31 @@ export class EventController {
     return this.eventService.findAll();
   }
 
+  @UseGuards(AuthenticatedGuard)
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.eventService.find(id);
   }
 
-  @Get('userid')
+  @UseGuards(AuthenticatedGuard)
+  @Get('user/:userid')
   findUserEvents(@Param('userid') userid: string) {
     return this.eventService.findByUserId(userid);
   }
 
+  @UseGuards(AuthenticatedGuard)
+  @Get('guildEvents/:userid')
+  findGuildEvents(@Param('userid') userid: string) {
+    return this.eventService.findAvaliableEvents(userid);
+  }
+
+  @UseGuards(AuthenticatedGuard)
   @Patch()
   update(@Body() data: Event) {
     return this.eventService.update(data);
   }
 
+  @UseGuards(AuthenticatedGuard)
   @Delete()
   remove(@Body() data: Event) {
     return this.eventService.remove(data);

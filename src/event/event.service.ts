@@ -63,7 +63,27 @@ export class EventService {
     return events;
   }
 
-  update(data: Event): Promise<Event> {
+  async findAvaliableEvents(userid: string) {
+    const assignedGuilds = await this.databaseService.guild.findMany({
+      where: {
+        members: {
+          some: {
+            id: userid,
+          },
+        },
+      },
+    });
+
+    return await this.databaseService.event.findMany({
+      where: {
+        guildId: {
+          in: assignedGuilds.map((assignedGuild) => assignedGuild.id),
+        },
+      },
+    });
+  }
+
+  async update(data: Event): Promise<Event> {
     return this.databaseService.event.update({
       where: {
         id: data.id,
