@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Event } from '@prisma/client';
+import { Event, Group, Role } from '@prisma/client';
 import { randomUUID } from 'crypto';
 import { DatabaseService } from 'src/database/database.service';
 
@@ -15,11 +15,11 @@ export class EventService {
     });
   }
 
-  findAll(): Promise<Event[]> {
+  async findAll(): Promise<Event[]> {
     return this.databaseService.event.findMany();
   }
 
-  find(eventOrEventId: Event | string): Promise<Event> {
+  async find(eventOrEventId: Event | string): Promise<Event> {
     if (typeof eventOrEventId == 'string') {
       return this.databaseService.event.findUnique({
         where: {
@@ -35,6 +35,34 @@ export class EventService {
     }
   }
 
+  async findByUserId(userid: string): Promise<Event[]> {
+    const fetchedRoles: Role[] = await this.databaseService.role.findMany({
+      where: {
+        assignedUser: { id: userid },
+      },
+    });
+
+    const groups: Group[] = await this.databaseService.group.findMany({
+      where: {
+        roles: {
+          some: {
+            id: { in: fetchedRoles.map((fetchedRole) => fetchedRole.id) },
+          },
+        },
+      },
+    });
+
+    const events: Event[] = await this.databaseService.event.findMany({
+      where: {
+        groups: {
+          some: { id: { in: groups.map((group) => group.id) } },
+        },
+      },
+    });
+
+    return events;
+  }
+
   update(data: Event): Promise<Event> {
     return this.databaseService.event.update({
       where: {
@@ -44,7 +72,7 @@ export class EventService {
     });
   }
 
-  remove(eventOrEventId: Event | string): Promise<Event> {
+  async remove(eventOrEventId: Event | string): Promise<Event> {
     if (typeof eventOrEventId == 'string') {
       return this.databaseService.event.delete({
         where: {

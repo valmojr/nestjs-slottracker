@@ -32,6 +32,11 @@ export class EventController {
     return this.eventService.find(id);
   }
 
+  @Get('userid')
+  findUserEvents(@Param('userid') userid: string) {
+    return this.eventService.findByUserId(userid);
+  }
+
   @Patch()
   update(@Body() data: Event) {
     return this.eventService.update(data);
