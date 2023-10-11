@@ -9,9 +9,6 @@ export class EventService {
 
   async create(data: Event): Promise<Event> {
     data.id = randomUUID();
-
-    //TODO - Add POST Request to the backend application for creating the Event on the Discord Server
-
     return this.databaseService.event.create({
       data,
     });
