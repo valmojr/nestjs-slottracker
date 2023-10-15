@@ -5,6 +5,7 @@ import { RoleModule } from './role/role.module';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { DashboardModule } from './dashboard/dashboard.module';
+import { GuildModule } from './guild/guild.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { DashboardModule } from './dashboard/dashboard.module';
     GroupModule,
     RoleModule,
     UserModule,
+    GuildModule,
     AuthModule,
     DashboardModule,
   ],
